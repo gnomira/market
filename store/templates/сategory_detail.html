@@ -1,0 +1,7 @@
+<a href="{% url 'index' %}">На главную</a>
+<h2>{{category.title}}</h2> 
+<p>{{ category.description}}</p>
+
+{% for product in category.products.all %}
+<h4><a href="/products/{{product.id}}/">{{product.title}}</a></h4>
+{% endfor %} 
