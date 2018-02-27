@@ -1,0 +1,8 @@
+
+{% for product in products %} 
+<h3><a href="/products/{{product.id}}/">{{product.title}}</a></h3>
+<h6><a href="/category/{{product.category.id}}/">{{product.category}}</a></h6>
+{% endfor %} 
+
+
+
