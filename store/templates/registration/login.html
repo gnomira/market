@@ -1,0 +1,11 @@
+  <h2>Login</h2>
+  <form method="post">  
+    {% csrf_token %} 
+    {{ form.as_p }} 
+    <button type="submit">Login</button>
+    <input type="button" onclick="history.back();" value="Назад"/>
+    <p><a  href="{% url 'signup' %}">Not registered yet? Sign up</a></p>
+  </form>
+
+  
+

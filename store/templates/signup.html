@@ -1,0 +1,11 @@
+<h2>Registration</h2>
+{# action — ссылка куда отправляется запрос, method - метод запроса #}
+<form action="" method="post">  
+  {% csrf_token %} 
+  {{ form.as_p }} 
+  <button type="submit">Signup</button>
+  <input type="button" onclick="history.back();" value="Назад"/>
+</form>
+
+
+ 

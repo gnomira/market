@@ -1,8 +1,43 @@
+  {% if user.is_authenticated %} 
+  <p>Привет, {{ user.username }}!</p>
+  <p><a href="{% url 'logout' %}">Выйти</a></p>
+{% else %} 
+  <p>You are not logged in.</p>
+  <a href="{% url 'login' %}">Войти</a> 
+  <a href="{% url 'signup' %}">Регистрация</a> 
+{% endif %}
+
+<h3>Категории:</h3>
+{% for category in categories %} 
+<h3><a href="{% url 'category_detail' category.id %}">{{ category }}</a> </h3>
+{% endfor %} 
 
 {% for product in products %} 
 <h3><a href="/products/{{product.id}}/">{{product.title}}</a></h3>
 <h6><a href="/category/{{product.category.id}}/">{{product.category}}</a></h6>
+<p>{% if product.image %}
+    <img src="{{product.image.url}}">
+    {% endif %}</p>
+<p>Описание:{{ product.description}}</p>
+<p>Цена:{{ product.price}} рублей</p>
 {% endfor %} 
 
-
-
+<div class="pagination">
+ 
+    {% if products.has_previous %}
+        <a href="?page={{ products.previous_page_number }}">←</a>
+    {% endif %}
+ 
+    {% for num in products.paginator.page_range %}
+        {% if num == articles.number %}
+            <span class="current"><b>{{ num }}</b></span>
+        {% else %}
+            <a href="?page={{ num }}"> {{ num }}</a>
+        {% endif %} 
+    {% endfor %}
+ 
+    {% if products_list.has_next %}
+        <a href="?page={{ products_list.next_page_number }}">→</a>
+    {% endif %}
+ 
+</div>
