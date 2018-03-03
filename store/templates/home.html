@@ -1,4 +1,8 @@
-{% for category in categorys %} 
-<h2>{{category.title}}</h2>
-<p>{{ category.description}}</p>
-{% endfor %} 
+{% if user.is_authenticated %} 
+<p>Привет, {{ user.username }}!</p>
+<p><a href="{% url 'logout' %}">Выйти</a></p>
+{% else %} 
+<p>You are not logged in.</p>
+<a href="{% url 'login' %}">Войти</a> 
+{% endif %}
+
