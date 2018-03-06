@@ -1,4 +1,3 @@
-# стандартный вью для админки
 from django.contrib import admin
 # модуль Джанго для определения урлов
 from django.urls import path, include
