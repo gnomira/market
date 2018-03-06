@@ -1,8 +1,12 @@
 <a href="{% url 'index' %}">На главную</a>
         
-
-
 <h2>{{product.title}}</h2> 
-<p>{{ product.description}}</p>
+<p>Описание:{{ product.description}}</p>
+<p>Цена:{{ product.price}} рублей</p>
+<p>{% if product.image %}
+        <img src="{{product.image.url}}">
+        {% endif %}</p>
 
+<button><a href="{% url 'product_order' product.id %}">Заказать</a></button>
+<input type="button" onclick="history.back();" value="Назад"/>
 

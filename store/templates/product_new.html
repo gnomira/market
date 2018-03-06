@@ -1,0 +1,8 @@
+  <h1>Создаем новый пост</h1>
+  {# action — ссылка куда отправляется запрос, method - метод запроса #}
+  <form action="" method="post"> 
+    {% csrf_token %} 
+    {{ form.as_p }} 
+    <input type="submit" value="Подтвердить" /> 
+  </form>
+      
