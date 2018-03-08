@@ -9,6 +9,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse,reverse_lazy 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from rest_framework import generics, serializers 
+from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
+from .serializers import ProductSerializer
+from rest_framework import permissions
 
 class IndexView(generic.ListView): 
     template_name = 'products_list.html' 
@@ -71,7 +75,7 @@ class SignUpView(generic.CreateView):
     template_name = 'signup.html'
 
 
-class Order_thanks(TemplateView): 
+class OrderThanks(TemplateView): 
     template_name = 'order_thanks.html' 
     # метод для добавления дополнительной информации в контекст
     def get_context_data(self, **kwargs): 
@@ -79,10 +83,14 @@ class Order_thanks(TemplateView):
         # передаем в словарь контекста список всех категорий 
         context['categories'] = Category.objects.all()
         return context
-    
+  
+class ProductListAPI(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    renderer_classes = (JSONRenderer, BrowsableAPIRenderer)
+    permission_classes = (permissions.IsAdminUser)
+    #serializer_class = ProductSerializer
 
-
-""""
+"""
  # наш секретный Вью
 class SecretAdminView(UserPassesTestMixin, generic.TemplateView):
     # секретное содержимое

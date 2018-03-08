@@ -17,11 +17,10 @@ urlpatterns = [
   path('category/<int:pk>/', views.CategoryDetail.as_view(), name='category_detail'),
   path('products/<int:pk>/order', views.OrderFormView.as_view(), name='product_order'),
   path('signup/', views.SignUpView.as_view(), name='signup'),
-  path('thanks/', views.Order_thanks.as_view(), name='order_thanks'),
+  path('thanks/', views.OrderThanks.as_view(), name='order_thanks'),
   path('accounts/', include('django.contrib.auth.urls')),
-  #path(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': MEDIA_ROOT}),
   path('admin/', admin.site.urls), 
-
+  path('api/products/', views.ProductListAPI.as_view(), name='api_products_list'),
  ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
