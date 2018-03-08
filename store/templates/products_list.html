@@ -1,43 +1,96 @@
-  {% if user.is_authenticated %} 
-  <p>Привет, {{ user.username }}!</p>
-  <p><a href="{% url 'logout' %}">Выйти</a></p>
-{% else %} 
-  <p>You are not logged in.</p>
-  <a href="{% url 'login' %}">Войти</a> 
-  <a href="{% url 'signup' %}">Регистрация</a> 
-{% endif %}
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+url = "http://127.0.0.1:8000/api/users/"
+headers = {'Authorization': 'login:password'}
+r = request.get(url, headers=headers)
 
-<h3>Категории:</h3>
-{% for category in categories %} 
-<h3><a href="{% url 'category_detail' category.id %}">{{ category }}</a> </h3>
-{% endfor %} 
+<link rel="stylesheet" href="{% static 'css/shop.css' %}">
+<link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> 
+    </head>
 
-{% for product in products %} 
-<h3><a href="/products/{{product.id}}/">{{product.title}}</a></h3>
-<h6><a href="/category/{{product.category.id}}/">{{product.category}}</a></h6>
-<p>{% if product.image %}
-    <img src="{{product.image.url}}">
-    {% endif %}</p>
-<p>Описание:{{ product.description}}</p>
-<p>Цена:{{ product.price}} рублей</p>
-{% endfor %} 
+<body>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="page-header">
+                <a href="/">Серова Анастасия <br>Украшения ручной работы</a>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            {% if user.is_authenticated %} 
+            <p align="right">Привет,<b> {{ user.username }}!&emsp;</b><br><a href="{% url 'logout' %}">Выйти&emsp;</a></p>
+            {% else %} 
+            <p align="right"> Вы не вошли в систему <br><a href="{% url 'login' %}">Войти</a>  <a href="{% url 'signup' %}">Регистрация</a></p>
+            {% endif %}
+        </div>
+      </div>
 
-<div class="pagination">
- 
-    {% if products.has_previous %}
-        <a href="?page={{ products.previous_page_number }}">←</a>
-    {% endif %}
- 
-    {% for num in products.paginator.page_range %}
-        {% if num == articles.number %}
-            <span class="current"><b>{{ num }}</b></span>
-        {% else %}
-            <a href="?page={{ num }}"> {{ num }}</a>
-        {% endif %} 
-    {% endfor %}
- 
-    {% if products_list.has_next %}
-        <a href="?page={{ products_list.next_page_number }}">→</a>
-    {% endif %}
- 
+    {% for category in categories %} 
+    <a href="{% url 'category_detail' category.id %}">{{ category }}</a> 
+    {% endfor %} <br>
+
+<div class="container-fluid">
+  <div class="col">
+    <div class="row">  
+      {% for product in products %} 
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+
+          <div class="card">
+            {% if product.image %}
+            <img class="card-img-top" src="{{product.image.url}}" class="img-thumbnail" alt="Cinque Terre">
+            {% endif %}
+
+            <div class="card-body">
+                <h4 class="card-title"><a href="/products/{{product.id}}/">{{product.title}}</a></h4>
+                <h6><a href="/category/{{product.category.id}}/">{{product.category}}</a></h6>
+                <p class="card-text">Описание:{{ product.description}}</p>
+              
+                <div class="row">
+                    <div class="col">
+                        <p align="center">Цена:{{ product.price}} рублей</p>
+                    </div>
+                    <div class="col">
+                        <p align="center"><a href={% url 'product_order' product.id %}>Заказать</a></p>
+                    </div>
+                </div>    
+            </div>
+          </div>
+        </div>
+        {% endfor %} 
+    </div> 
+  </div> 
 </div>
+
+  <ul class="pagination pagination-sm">
+    {% if products.has_previous %}
+    <li class="page-item"><a class="page-link"  href="?page={{ products.previous_page_number }}">Previous </a></li>
+    {% endif %}
+   
+    {% for num in products.paginator.page_range %}
+    {% if num == articles.number %}
+    <span class="current"><b>{{ num }}</b></span>
+    {% else %}
+    <li class="page-item"><a class="page-link"  href="?page={{ num }}"> {{ num }}</a></li>
+    {% endif %} 
+    {% endfor %}
+   
+    {% if products_list.has_next %}
+    <li class="page-item"><a class="page-link"href="?page={{ products_list.next_page_number }}">Next</a></li>
+    {% endif %}
+   
+  </ul>
+
+
+</body>
+</html>
+  
+  
